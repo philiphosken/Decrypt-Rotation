@@ -2,29 +2,36 @@
 
 int main()
 {
-char betatxt[] = "Phil io p i o"; //Text that is to become Decrypted (PHIL)
-int N = 13; //Number of Values in the Array above
-int i; //Counter Index
-int k = -1; //KEY or the number of charcters shifted in the rotation cypher (left neg right pos)
 
-if (k > 26 || k < -26){
-    printf("%d is an invalid value for k. Select an interger between -25 and 25", k);
-} else
+int k = (-3); //KEY = the number of charcters that need to be shifted to return english
 
 
-for (i = 0 ; i < N ; ++i){
-    int phi = betatxt[i]; //place holding integer
+    FILE *cypher;
+    FILE *message;
     
+    cypher = fopen("cypher.txt", "r");
+    message = fopen("message.txt", "w");
+    
+    while (feof(cypher) == 0){
+        char phi;
+        fscanf(cypher, "%c", &phi);
+      
+          
     if (phi == 32){
-     printf("%c", phi); //Just prints the space)
+     fprintf(message, "%c", phi); //Just prints the space
+     printf("%c", phi);
     
-    }else if((phi + k) > 90){
-        printf("%c", phi - 26 - k); // if it try to shift to characters after 'Z' loop back to 'A'
+    }else if((phi + k) > 90){ // If it exceeds 'Z' after k is added, then simply take 26 away then add k
+        fprintf(message, "%c", phi - 26 + k); 
+        printf("%c", phi - 26 + k);
         
-    } else if ( (phi + k) < 65 ){
-        printf("%c", phi + 26 - k);
+    } else if ( (phi + k) < 65 ){ //If it exceeds 'Z' after k is added, then simply add 26 away then add k
+        fprintf(message, "%c", phi + 26 + k);
+        printf("%c", phi + 26 + k);
             
-    } else printf("%c", phi - k);
+    } else {fprintf(message, "%c", phi + k);// if within the bounds of ASCII 'A' and 'Z' just add k
+            printf("%c", phi + k);
+        }
+
 }
-      return 0;
-}
+    }
